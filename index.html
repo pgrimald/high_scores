@@ -1,0 +1,280 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+	<head>
+		<title>Game Preserve High Scores</title>
+		
+		<link href='http://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'>
+		
+		<style>
+		
+		/*General Formatting*/
+		* { 
+			font-family: 'Press Start 2P', sans-serif;
+			color: #46A7FF;
+			background-color: black;
+		}
+		
+		body{
+			font-size: 20px;
+		}
+		a{
+			font-size: 50%;
+		}
+		
+		/*table*/
+		table {
+			border-collapse: separate;
+			border-spacing: 0 6em;
+			width: 100%;
+			
+		}
+		th {
+			font-weight: bold;
+			font-size:120%;
+			padding: 2px;
+			width:20%;
+		}
+		tbody tr:nth-child(odd) {
+		   background-color: #ccc;
+		}
+		
+		/*Game Preserve Banner*/
+		#banner{
+			font-size: 30px;
+			text-align: center;	
+			width: 100%;	
+			height: 50px;
+		}
+		/*Wall of Champions Banner Banner*/
+		#sub_banner{
+			height: 30px;
+			text-align: center;	
+			width: 100%;
+			margin-top:30px;
+			margin-bottom:20px;	
+		}
+		
+		#footer{
+			position:absolute;
+			float:right;
+			right:0;
+		}
+
+		/*Score Box*/
+		.scorebox {
+			font-size: 1vw;
+			height: 750px;
+			width: 90%;
+			min-width: 700px;
+			border-radius: 2px;	
+			margin: 20px;
+			border: 5px solid #3B3B3B;
+			overflow: hidden;
+			position: relative;
+			margin:auto;
+			left:0;right:0;
+		}
+
+		/*Animation Stuff*/
+		.scorebox h3 {
+			position: absolute;
+			bottom:20px;
+			width: 100%;
+			margin: 0;
+			line-height: 30px;
+			text-align: center;
+ 
+		/* Starting position */
+			-moz-transform:translateY(0%);
+			-webkit-transform:translateY(0%);	
+			transform:translateY(0%);
+
+		/* Apply animation to this element */
+		/*NOTE: CHANGE THE TIME TO ADJUST THE RATE OF SCROLLING;*/	
+			-moz-animation: scorebox 400s linear infinite;
+			-webkit-animation: scorebox 400s linear infinite;
+			animation: scorebox 400s linear infinite;
+		}
+
+		/* Move it (define the animation) */
+		@-moz-keyframes scorebox {
+			0%   { -moz-transform: translateY(100%); }
+			100% { -moz-transform: translateY(-10%); }
+		}
+		@-webkit-keyframes scorebox {
+			0%   { -webkit-transform: translateY(100%); }
+			100% { -webkit-transform: translateY(-10%); }
+			}
+
+		@keyframes scorebox {
+			0%   { 
+				-moz-transform: translateY(100%); /* Firefox bug fix */
+				-webkit-transform: translateY(100%); /* Firefox bug fix */
+				transform: translateY(100%); 		
+			}
+			100% { 
+				-moz-transform: translateY(-10%); /* Firefox bug fix */
+				-webkit-transform: translateY(-10%); /* Firefox bug fix */
+				transform: translateY(-10%); 
+			}
+		}
+		
+		
+/*		LOGO RECREATION*/
+		#logo_container{
+			width: 520px;
+		}
+		
+		#logo_top{
+			font-size:15px;
+			height: 20px;
+		}
+		#logo_mid{
+			font-size:40px;
+		}
+		#logo_bot{
+			height:30px;
+			width:100%;
+			font-weight:italic;
+		}
+		
+		#sprite{
+			width:25px;
+			height:25px;
+			float:left;
+			position:relative;
+			top: 50%;
+			transform: translateY(-50%);
+			-webkit-transform: translateY(-50%);
+			-ms-transform: translateY(-50%);
+		}
+		#bot_bar{
+			width:205px;
+			height:5px;
+			background-color:red;
+			float:left;
+			position: relative;
+			top: 50%;
+			transform: translateY(-50%);
+			-webkit-transform: translateY(-50%);
+			-ms-transform: translateY(-50%);
+			left:5px;
+
+		}
+		#bot_text{
+			float:right;
+			font-size:20px;
+			position: relative;
+			top: 50%;
+			transform: translateY(-50%);
+			-webkit-transform: translateY(-50%);
+			-ms-transform: translateY(-50%);
+		}
+		.centered{
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		
+		</style>
+		
+	</head>
+	<body>
+		
+		<div id="logo_container" class="centered">
+			<div id = "logo_top">THE</div>
+			<div id = "logo_mid">GAME PRESERVE</div>
+			<div id = "logo_bot">
+				<img id = "sprite" src = "gpicon.png" >
+				<div id="bot_bar"></div>
+				<div id="bot_text">CLASSIC ARCADE</div>
+			</div>
+		</div>
+		
+		<div id="sub_banner">Wall of Champions</div>
+
+		<div class="scorebox">
+			<h3>
+			<table id="ScoreTable">
+				<tr>
+					<th>Game</th>
+					<th>Score</th>
+					<th>Name</th>
+					<th>Initials</th>
+					<th>Date</th>
+					
+				</tr>
+			</table>
+			
+
+			<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+			<script src="https://cdn.blockspring.com/blockspring.js"></script>
+			<script>  
+			
+			//TESTING DATA
+			// var text = '{"data":[' +
+			// '{"Game":"Dracula","Name":"Phillip Grimaldi","Score":"4,563,300,233" },' +
+			// '{"Game":"Ripleys Believe it or Not","Name":"Death Save Disciple","Score":"264,573,728" },' +
+			// '{"Game":"Dracula","Name":"PJG","Score":"4,563,300,233" },' +
+			// '{"Game":"Walking Dead","Name":"DSD","Score":"264,573,728" },' +
+			// '{"Game":"Dracula","Name":"PJG","Score":"4,563,300,233" },' +
+			// '{"Game":"Walking Dead","Name":"DSD","Score":"264,573,728" },' +
+			// '{"Game":"Dracula","Name":"PJG","Score":"4,563,300,233" },' +
+			// '{"Game":"Walking Dead","Name":"DSD","Score":"264,573,728" },' +
+			// '{"Game":"","Name":"Winners dont use drugs","Score":"" }]}';
+			
+			//DRAW TEST DATA
+			//var json = JSON.parse(text);
+			//drawTable(json);
+
+			//TABLE DRAWING FUNCTIONS
+			function drawTable(json) {
+				for (var i = 0; i < json.data.length; i++) {
+					drawRow(json.data[i]);
+				}
+			}
+		
+			function drawRow(rowData) {
+				var row = $("<tr/>")
+				$("#ScoreTable").append(row); //this will append tr element to table... 
+				row.append($("<td>" + rowData.Game + "</td>"));
+				row.append($("<td>" + addCommas(rowData.Score) + "</td>"));
+				row.append($("<td>" + rowData.Name + "</td>"));
+				row.append($("<td>" + rowData.Initials + "</td>"));
+				row.append($("<td>" + rowData.Date + "</td>"));
+			}
+			
+			//CALL DATA FROM GOOLGE SHEET, DRAW TABLES WHEN QUERY COMPLETE
+			blockspring.runParsed("query-google-spreadsheet", { "query": "SELECT *", "url": "https://docs.google.com/spreadsheets/d/1hX0cdW8HApzsaivDrZG0-H9-rh_zNvTP8V4yaULqBD8/edit?usp=sharing"}, { "api_key": "" }, function(res){
+			//console.log(res.params);
+			var json = JSON.stringify(res.params);
+			json = JSON.parse(json);
+				drawTable(json);
+				// $("tr:even").css("color", "00fa00");
+			})
+			
+			function addCommas(nStr)
+			{
+				nStr += '';
+				x = nStr.split('.');
+				x1 = x[0];
+				x2 = x.length > 1 ? '.' + x[1] : '';
+				var rgx = /(\d+)(\d{3})/;
+				while (rgx.test(x1)) {
+					x1 = x1.replace(rgx, '$1' + ',' + '$2');
+				}
+				return x1 + x2;
+			}
+			
+			
+			
+			</script>
+			</h3>
+
+		</div>
+		<div class = "spacer"></div>
+		<div id="footer"><a href = "https://docs.google.com/spreadsheets/d/1hX0cdW8HApzsaivDrZG0-H9-rh_zNvTP8V4yaULqBD8/edit?usp=sharing">View Data</a></div>
+	</body>
+	
+</html>
